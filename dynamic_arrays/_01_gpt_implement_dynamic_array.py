@@ -37,65 +37,57 @@ O(n)
 
 
 class DynamicArray:
-    
     def __init__(self, initial_capacity=10):
-        if initial_capacity <= 0: 
-            raise ValueError("initial_capacity must be positive.")
-        
-        self._capacity = initial_capacity  # Number of slots in the array
-        self._size = 0  # Number of elements actually stored
-        self._data = [None] * self._capacity  # Initialize an empty array
-        
+        if initial_capacity <= 0:
+            raise ValueError("initial_capacity must be positive")
+
+        self._capacity = initial_capacity
+        self._size = 0
+        self._data = [None] * self._capacity
+
     def get(self, i):
         if i < 0 or i >= self._size:
-            raise IndexError("index out of bounds.")
+            raise IndexError("index out of bounds")
         return self._data[i]
-    
+
     def set(self, i, x):
         if i < 0 or i >= self._size:
-            raise IndexError("index out of bounds.")
+            raise IndexError("index out of bounds")
         self._data[i] = x
-        
+
     def size(self):
         return self._size
-    
+
     def append(self, x):
         if self._size == self._capacity:
             self._resize()
+
         self._data[self._size] = x
         self._size += 1
-    
-    def _resize(self, new_capacity=None):
-        if new_capacity is None:
-            new_capacity = self._capacity * 2
 
-        self._capacity = new_capacity
+    def pop_back(self):
+        if self._size == 0:
+            raise IndexError("pop from empty DynamicArray")
+
+        value = self._data[self._size - 1]
+        self._data[self._size - 1] = None
+        self._size -= 1
+        return value
+
+    def _resize(self):
+        self._capacity *= 2
         new_data = [None] * self._capacity
 
         for i in range(self._size):
             new_data[i] = self._data[i]
 
         self._data = new_data
-            
-    def pop_back(self):
-        if self._size == 0:
-            raise IndexError("pop from empty array.")
 
-        popped_value = self._data[self._size - 1]
-        self._data[self._size - 1] = None
-        self._size -= 1
-        
-        # Shrink the capacity of the array if it is fairly empty
-        # (e.g., only 25% full)
-        if self._size / self._capacity < 0.25 and self._capacity > 10:
-            self._resize(self._capacity // 2)
-        
-        return popped_value
-            
     def __repr__(self):
         valid_items = [self._data[i] for i in range(self._size)]
         return f"DynamicArray({valid_items}, size={self._size}, capacity={self._capacity})"
-        
+
+
 if __name__ == "__main__":
     arr = DynamicArray()
 
