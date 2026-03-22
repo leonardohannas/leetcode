@@ -127,8 +127,14 @@ class DynamicArray:
         self._data[i] = x    
         self._size += 1
     
-        
-        
+    def remove(self, x):
+        for i in range(self._size):
+            if x == self._data[i]:
+                self.pop(i)
+                return i
+            
+        return -1  # Element not found
+                
             
             
     def __repr__(self):
