@@ -107,8 +107,29 @@ class DynamicArray:
         self.pop_back()
         
         return popped_value
+    
+    def contains(self, x):
+        for i in range(self._size):
+            if self._data[i] == x:
+                return True
+        return False
+        
+    def insert(self, i, x):
+        if i < 0 or i > self._size:
+            raise IndexError("Index out of bounds.")
+        
+        if self._size == self._capacity:
+            self._resize()
+         
+        for index in range(self._size, i, -1):
+            self._data[index] = self._data[index - 1] 
+        
+        self._data[i] = x    
+        self._size += 1
+    
         
         
+            
             
     def __repr__(self):
         valid_items = [self._data[i] for i in range(self._size)]
