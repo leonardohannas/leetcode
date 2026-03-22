@@ -40,7 +40,7 @@ class DynamicArray:
     
     def __init__(self, initial_capacity=10):
         if initial_capacity <= 0: 
-            raise ValueError("initial_capacity must be positive.")
+            raise ValueError("Initial capacity must be positive.")
         
         self._capacity = initial_capacity  # Number of slots in the array
         self._size = 0  # Number of elements actually stored
@@ -48,12 +48,12 @@ class DynamicArray:
         
     def get(self, i):
         if i < 0 or i >= self._size:
-            raise IndexError("index out of bounds.")
+            raise IndexError("Index out of bounds.")
         return self._data[i]
     
     def set(self, i, x):
         if i < 0 or i >= self._size:
-            raise IndexError("index out of bounds.")
+            raise IndexError("Index out of bounds.")
         self._data[i] = x
         
     def size(self):
@@ -79,7 +79,7 @@ class DynamicArray:
             
     def pop_back(self):
         if self._size == 0:
-            raise IndexError("pop from empty array.")
+            raise IndexError("Pop from empty array.")
 
         popped_value = self._data[self._size - 1]
         self._data[self._size - 1] = None
@@ -91,6 +91,24 @@ class DynamicArray:
             self._resize(self._capacity // 2)
         
         return popped_value
+    
+    def pop(self, i):
+        if i < 0 or i >= self._size:
+            raise IndexError("Index out of bounds.")
+    
+        if i == self._size - 1:
+            return self.pop_back()
+        
+        popped_value = self._data[i]
+        
+        for index in range(i, self._size - 1):
+            self._data[index] = self._data[index + 1]
+        
+        self.pop_back()
+        
+        return popped_value
+        
+        
             
     def __repr__(self):
         valid_items = [self._data[i] for i in range(self._size)]
@@ -102,13 +120,17 @@ if __name__ == "__main__":
     arr.append(10)
     arr.append(20)
     arr.append(30)
+    arr.append(40)
+    
+    arr.pop(3)
+    
 
     print(arr)                # DynamicArray([10, 20, 30], ...)
-    print(arr.get(1))         # 20
+    # print(arr.get(1))         # 20
 
-    arr.set(1, 99)
-    print(arr.get(1))         # 99
+    # arr.set(1, 99)
+    # print(arr.get(1))         # 99
 
-    print(arr.pop_back())     # 30
-    print(arr.size())         # 2
-    print(arr)
+    # print(arr.pop_back())     # 30
+    # print(arr.size())         # 2
+    # print(arr)
