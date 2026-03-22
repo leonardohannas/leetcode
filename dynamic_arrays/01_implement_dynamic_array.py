@@ -14,6 +14,10 @@ Support the following operations:
 - set(i, x): update the element at index i
 - size(): return the number of stored elements
 - pop_back(): remove and return the last element
+- pop(i): remove and return the element at index i
+- contains(x): return True if x is in the array, otherwise False
+- insert(i, x): insert x at index i, shifting elements to the right
+- remove(x): remove the first occurrence of x and return its index, or -1 if not found
 
 Approach:
 Store elements in an underlying fixed-size Python list that represents the
@@ -21,15 +25,22 @@ allocated capacity. Keep track of:
 - self._size: number of valid elements currently stored
 - self._capacity: number of allocated slots
 
-When the array is full and append is called, allocate a new array with double
-the capacity and copy all elements over.
+When the array is full and append or insert is called, allocate a new array
+with double the capacity and copy all elements over.
+
+When the array becomes fairly empty after removals, shrink the underlying
+storage to avoid wasting too much space.
 
 Time Complexity:
 - append(x): amortized O(1)
 - get(i): O(1)
 - set(i, x): O(1)
 - size(): O(1)
-- pop_back(): O(1)
+- pop_back(): O(1) amortized
+- pop(i): O(n)
+- contains(x): O(n)
+- insert(i, x): O(n)
+- remove(x): O(n)
 
 Space Complexity:
 O(n)
@@ -131,33 +142,164 @@ class DynamicArray:
         for i in range(self._size):
             if x == self._data[i]:
                 self.pop(i)
-                return i
-            
+                return i   
         return -1  # Element not found
                 
-            
-            
+                  
     def __repr__(self):
         valid_items = [self._data[i] for i in range(self._size)]
         return f"DynamicArray({valid_items}, size={self._size}, capacity={self._capacity})"
         
-if __name__ == "__main__":
-    arr = DynamicArray()
 
+if __name__ == "__main__":
+    
+    print("=== TEST 1: Create empty array ===")
+    arr = DynamicArray()
+    print(arr)
+    print("size:", arr.size())
+    print()
+
+    print("=== TEST 2: pop_back on empty array (invalid) ===")
+    try:
+        arr.pop_back()
+    except Exception as e:
+        print("Error:", e)
+    print()
+
+    print("=== TEST 3: get on empty array (invalid) ===")
+    try:
+        arr.get(0)
+    except Exception as e:
+        print("Error:", e)
+    print()
+
+    print("=== TEST 4: set on empty array (invalid) ===")
+    try:
+        arr.set(0, 100)
+    except Exception as e:
+        print("Error:", e)
+    print()
+
+    print("=== TEST 5: append valid values ===")
     arr.append(10)
     arr.append(20)
     arr.append(30)
     arr.append(40)
-    
-    arr.pop(3)
-    
+    print(arr)
+    print("size:", arr.size())
+    print()
 
-    print(arr)                # DynamicArray([10, 20, 30], ...)
-    # print(arr.get(1))         # 20
+    print("=== TEST 6: get valid indices ===")
+    print("arr.get(0):", arr.get(0))
+    print("arr.get(2):", arr.get(2))
+    print()
 
-    # arr.set(1, 99)
-    # print(arr.get(1))         # 99
+    print("=== TEST 7: get invalid indices ===")
+    try:
+        arr.get(-1)
+    except Exception as e:
+        print("Error:", e)
 
-    # print(arr.pop_back())     # 30
-    # print(arr.size())         # 2
-    # print(arr)
+    try:
+        arr.get(10)
+    except Exception as e:
+        print("Error:", e)
+    print()
+
+    print("=== TEST 8: set valid index ===")
+    arr.set(1, 99)
+    print(arr)
+    print()
+
+    print("=== TEST 9: set invalid index ===")
+    try:
+        arr.set(10, 500)
+    except Exception as e:
+        print("Error:", e)
+    print()
+
+    print("=== TEST 10: contains ===")
+    print("Contains 99?", arr.contains(99))
+    print("Contains 123?", arr.contains(123))
+    print()
+
+    print("=== TEST 11: insert valid positions ===")
+    arr.insert(0, 5)
+    print("After insert(0, 5):", arr)
+
+    arr.insert(2, 77)
+    print("After insert(2, 77):", arr)
+
+    arr.insert(arr.size(), 500)
+    print("After insert(arr.size(), 500):", arr)
+    print()
+
+    print("=== TEST 12: insert invalid positions ===")
+    try:
+        arr.insert(-1, 111)
+    except Exception as e:
+        print("Error:", e)
+
+    try:
+        arr.insert(arr.size() + 1, 222)
+    except Exception as e:
+        print("Error:", e)
+    print()
+
+    print("=== TEST 13: pop valid index ===")
+    removed = arr.pop(3)
+    print("Removed element:", removed)
+    print(arr)
+    print()
+
+    print("=== TEST 14: pop invalid indices ===")
+    try:
+        arr.pop(-1)
+    except Exception as e:
+        print("Error:", e)
+
+    try:
+        arr.pop(100)
+    except Exception as e:
+        print("Error:", e)
+    print()
+
+    print("=== TEST 15: pop_back valid ===")
+    removed_last = arr.pop_back()
+    print("Removed last element:", removed_last)
+    print(arr)
+    print()
+
+    print("=== TEST 16: remove existing element ===")
+    removed_index = arr.remove(99)
+    print("Removed index:", removed_index)
+    print(arr)
+    print()
+
+    print("=== TEST 17: remove non-existing element ===")
+    removed_index = arr.remove(12345)
+    print("Returned value:", removed_index)
+    print(arr)
+    print()
+
+    print("=== TEST 18: force shrink with many pop_back operations ===")
+    print("Current array before shrink test:", arr)
+    while arr.size() > 0:
+        print("pop_back() ->", arr.pop_back(), "|", arr)
+    print()
+
+    print("=== TEST 19: pop on empty array after clearing ===")
+    try:
+        arr.pop(0)
+    except Exception as e:
+        print("Error:", e)
+    print()
+
+    print("=== TEST 20: remove on empty array ===")
+    print("Returned value:", arr.remove(10))
+    print(arr)
+    print()
+
+    print("=== FINAL STATE ===")
+    print(arr)
+    print("size:", arr.size())
