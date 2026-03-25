@@ -38,3 +38,80 @@ depends only on a single character.
 Space Complexity:
 O(1)
 """
+
+# Question 1
+
+def is_lowercase(c):
+    return ord(c) >= ord('a') and ord(c) <= ord('z')
+
+def is_uppercase(c):
+    return ord(c) >= ord('A') and ord(c) <= ord('Z')
+
+def is_digit(c):
+    return ord(c) >= ord('0') and ord(c) <= ord('9')
+
+def is_alphanumeric(c):
+    return is_lowercase(c) or is_uppercase(c) or is_digit(c)
+
+# Question 2
+
+def to_uppercase(c):
+    if not is_lowercase(c):
+        return 
+    c = chr(ord(c) + ord('A') - ord('a'))
+    return c
+    
+
+# Question 3
+
+def split(s, c):
+    splitted_strings = []
+    temp_string = ""
+    for char in s:
+        if char == c:
+            splitted_strings.append(temp_string)
+            temp_string = ""
+        else:
+            temp_string += char
+            
+    splitted_strings.append(temp_string)
+    return splitted_strings
+            
+# Question 4
+
+def join(arr, s):
+    final_string = ""
+    for item in arr:
+        if item == arr[-1]:
+            final_string += item
+        else:
+            final_string += (item + s)
+    
+    return final_string
+
+# Question 5: returns the first index in the string s where the string t appears in s. 
+# Returns -1 if s does not contain t
+
+def index_of(s, t):
+    
+    equal = True
+    
+    # External loop for t 
+    for char_t in t:
+        # Internal loop for s
+        for char_s in s:
+            if char_s != char_t: 
+                equal = False
+    
+    if equal == False:
+        print(f"s does not contain t")
+        
+                
+  
+
+
+if __name__ == "__main__":
+    s = "abcde"
+    t = "bcd"
+    print(index_of(s,t))
+    
