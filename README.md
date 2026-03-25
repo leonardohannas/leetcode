@@ -17,6 +17,7 @@ Inside each chapter folder, I usually include:
 ## Current chapters
 
 - `dynamic_arrays/`
+- `string_manipulation/`
 
 ## Conventions
 
