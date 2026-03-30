@@ -4,7 +4,7 @@ This folder contains my personal solutions for the **Dynamic Arrays** chapter fr
 
 ## Problems
 
-- `01_dynamic_array_implementation.py` — implementation of a dynamic array from scratch, including core operations and extra methods such as indexed removal, insertion, search, and deletion by value
+- `dynamic_array.py` — implementation of a dynamic array from scratch, including core operations and extra methods such as indexed removal, insertion, search, and deletion by value
 
 ## Implemented methods
 
