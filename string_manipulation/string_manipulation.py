@@ -89,29 +89,33 @@ def join(arr, s):
     
     return final_string
 
-# Question 5: returns the first index in the string s where the string t appears in s. 
+# Question 5: implement the function index_of(s,t), where it returns the first index in the string s where the string t appears in s. 
 # Returns -1 if s does not contain t
 
+def str_cmp(str1, str2):
+    if len(str1) != len(str2):
+        return -1
+    else: # same lenght
+        for i in range(len(str1)):
+            if str1[i] != str2[i]:
+                return -1
+        return 0
+
 def index_of(s, t):
-    
-    equal = True
-    
-    # External loop for t 
-    for char_t in t:
-        # Internal loop for s
-        for char_s in s:
-            if char_s != char_t: 
-                equal = False
-    
-    if equal == False:
-        print(f"s does not contain t")
+    lenght_t = len(t)
+    lenght_s = len(s)
+    for i in range(lenght_s - lenght_t + 1):
+        if str_cmp(s[i:i+lenght_t], t) == 0:
+            return i
+    return -1
         
-                
-  
+        
+        
 
 
 if __name__ == "__main__":
-    s = "abcde"
-    t = "bcd"
+    s = "abcdefg"
+    t = "efg"
     print(index_of(s,t))
+    # print(str_cmp(s,t))
     
