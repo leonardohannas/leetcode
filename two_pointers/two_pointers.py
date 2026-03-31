@@ -35,6 +35,9 @@ Included questions:
 - Question 7: given a sorted array of integers, determine whether there
   exists a pair of different positions whose values add up to zero, while
   using only constant extra memory.
+- Question 8: given three sorted arrays, build and return a single sorted
+  array containing all values from the three inputs, but keeping only one
+  copy of each distinct value.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -65,6 +68,9 @@ array is exhausted.
 Question 7 uses inward pointers on a sorted array, moving the left or right
 pointer depending on whether the current sum is too small or too large.
 
+Question 8 extends the merging idea to three sorted arrays while also
+skipping repeated values in the final result.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
@@ -78,6 +84,7 @@ Concepts practiced:
 - reverse matching across character groups
 - merging sorted arrays
 - pair-sum search in sorted arrays
+- duplicate removal during merge
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -89,6 +96,7 @@ Time Complexity:
 - Question 5: O(n), where n is the length of the string
 - Question 6: O(n + m), where n and m are the lengths of the two arrays
 - Question 7: O(n), where n is the length of the array
+- Question 8: O(n + m + p), where n, m, and p are the lengths of the three arrays
 
 Space Complexity:
 - Question 1: O(1)
@@ -98,6 +106,7 @@ Space Complexity:
 - Question 5: O(1)
 - Question 6: O(n + m), for the merged output array
 - Question 7: O(1)
+- Question 8: O(n + m + p), for the merged output array in the worst case
 """
 
 # Question 1
@@ -216,8 +225,26 @@ def merge(arr1, arr2):
     
     return output_arr
     
-    # Question 7
-    
+# Question 7
+
+def two_sum_zero(arr):
+    left_pointer, right_pointer = 0, len(arr) - 1
+    while(left_pointer < right_pointer):
+        current_sum = arr[left_pointer] + arr[right_pointer]
+        if current_sum > 0:
+            right_pointer -= 1
+        elif current_sum < 0:
+            left_pointer += 1
+        else:
+            return True
+    return False
+
+# Question 8
+
+def merge_three_sorted_unique(arr1, arr2, arr3):
+    pass
+
+
     
 
 
@@ -230,13 +257,21 @@ if __name__ == "__main__":
     # s = "Bob wondered, 'Now, Bob?'"
     # print(palindromic_sentence(s))
     
-    # Test  question 5
+    # Test question 5
     # s = "haDrRAHd"
     # s = "haHrARDd"
     # print(reverse_case_match(s))
     
-    # Test  question 6
+    # Test question 6
     # print(merge(arr1=[-1], arr2=[]))
-    print(merge(arr1=[1,3,4,5], arr2=[2,4,4]))
+    # print(merge(arr1=[1,3,4,5], arr2=[2,4,4]))
 
+    # Test question 7
+    # arr=[-5,-2,-1,1,1,10]
+    # arr=[-3,0,0,1,2]
+    # arr=[-5,-3,-1,0,2,4,6]
+    # print(two_sum_zero(arr))
+    
+    # Test question 8
+    print(merge_three_sorted_unique(arr1=[2,3,3,4,5,7], arr2=[3,3,9], arr3=[3,3,9]))
         

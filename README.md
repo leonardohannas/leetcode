@@ -18,6 +18,7 @@ Inside each chapter folder, I usually include:
 
 - `dynamic_arrays/`
 - `string_manipulation/`
+- `two_pointers/`
 
 ## Conventions
 
