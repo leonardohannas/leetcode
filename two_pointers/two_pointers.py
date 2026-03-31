@@ -22,6 +22,9 @@ Included questions:
 - Question 3: given two sorted arrays of integers, return a new array with
   the elements that appear in both arrays, in sorted order, including
   duplicates present in both arrays.
+- Question 4: given a sentence, determine whether its letters form a
+  palindrome when differences in capitalization are ignored and non-letter
+  characters such as spaces and punctuation are skipped.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -38,6 +41,9 @@ Question 3 uses parallel pointers, in which one pointer moves through each
 sorted array, allowing the intersection to be built efficiently by comparing
 the current elements of both arrays.
 
+Question 4 also uses inward pointers, but adds extra logic to ignore
+irrelevant characters and compare letters in a case-insensitive way.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
@@ -47,6 +53,7 @@ Concepts practiced:
 - string traversal from both ends
 - prefix sum comparison
 - array intersection
+- sentence normalization during comparison
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -54,11 +61,13 @@ Time Complexity:
 - Question 1: O(n), where n is the length of the string
 - Question 2: O(n), where n is the length of the array
 - Question 3: O(n + m), where n and m are the lengths of the two arrays
+- Question 4: O(n), where n is the length of the sentence
 
 Space Complexity:
 - Question 1: O(1)
 - Question 2: O(1)
 - Question 3: O(k), where k is the size of the intersection output
+- Question 4: O(1)
 """
 
 # Question 1
@@ -110,17 +119,35 @@ def common_elements(arr1, arr2):
             else: 
                 pointer_2 += 1
     return output_arr
-            
+
+# Question 4
+
+def palindromic_sentence(s):
+    left_pointer, right_pointer = 0, len(s) - 1
+    
+    while left_pointer < right_pointer:
+        
+        if not s[left_pointer].isalpha():
+            left_pointer += 1
+        elif not s[right_pointer].isalpha():
+            right_pointer -= 1 
+        else:
+            if s[left_pointer].lower() != s[right_pointer].lower():
+                return False
+        
+            left_pointer += 1
+            right_pointer -= 1
+        
+    return True
+
+# Question 5
+
 
 
 
 if __name__ == "__main__":
-    # s = "level"
-    # print(palindrome(s))
-    
-    # arr = [1,2,2,-1]
-    # arr = [1,2,-2,1,3,5]
-    arr1 = [1,1,1]
-    arr2 = [1,1]
-    print(common_elements(arr1, arr2))
+    # Test question 4
+    s = "Bob wondered, 'Now, Bob?'"
+    print(palindromic_sentence(s))
+
         
