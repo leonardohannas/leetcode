@@ -32,6 +32,9 @@ Included questions:
 - Question 6: given two arrays already sorted in nondecreasing order,
   construct and return a new sorted array containing every element from both
   inputs, preserving repeated values as many times as they occur.
+- Question 7: given a sorted array of integers, determine whether there
+  exists a pair of different positions whose values add up to zero, while
+  using only constant extra memory.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -59,6 +62,9 @@ Question 6 uses parallel pointers on two sorted arrays, appending the smaller
 current value at each step and then adding any remaining suffix once one
 array is exhausted.
 
+Question 7 uses inward pointers on a sorted array, moving the left or right
+pointer depending on whether the current sum is too small or too large.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
@@ -71,6 +77,7 @@ Concepts practiced:
 - sentence normalization during comparison
 - reverse matching across character groups
 - merging sorted arrays
+- pair-sum search in sorted arrays
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -81,6 +88,7 @@ Time Complexity:
 - Question 4: O(n), where n is the length of the sentence
 - Question 5: O(n), where n is the length of the string
 - Question 6: O(n + m), where n and m are the lengths of the two arrays
+- Question 7: O(n), where n is the length of the array
 
 Space Complexity:
 - Question 1: O(1)
@@ -89,6 +97,7 @@ Space Complexity:
 - Question 4: O(1)
 - Question 5: O(1)
 - Question 6: O(n + m), for the merged output array
+- Question 7: O(1)
 """
 
 # Question 1
@@ -186,7 +195,29 @@ def reverse_case_match(s):
 # Question 6
 
 def merge(arr1, arr2):
-    pass
+    pointer_1, pointer_2 = 0, 0
+    output_arr = []
+    
+    while pointer_1 < len(arr1) and pointer_2 < len(arr2):
+        if arr1[pointer_1] < arr2[pointer_2]:
+            output_arr.append(arr1[pointer_1])
+            pointer_1 += 1
+        else:
+            output_arr.append(arr2[pointer_2])
+            pointer_2 += 1
+    
+    while pointer_1 < len(arr1):
+        output_arr.append(arr1[pointer_1])
+        pointer_1 += 1
+    
+    while pointer_2 < len(arr2):
+        output_arr.append(arr2[pointer_2])
+        pointer_2 += 1
+    
+    return output_arr
+    
+    # Question 7
+    
     
 
 
@@ -201,7 +232,11 @@ if __name__ == "__main__":
     
     # Test  question 5
     # s = "haDrRAHd"
-    s = "haHrARDd"
-    print(reverse_case_match(s))
+    # s = "haHrARDd"
+    # print(reverse_case_match(s))
+    
+    # Test  question 6
+    # print(merge(arr1=[-1], arr2=[]))
+    print(merge(arr1=[1,3,4,5], arr2=[2,4,4]))
 
         
