@@ -25,6 +25,13 @@ Included questions:
 - Question 4: given a sentence, determine whether its letters form a
   palindrome when differences in capitalization are ignored and non-letter
   characters such as spaces and punctuation are skipped.
+- Question 5: given a string with an even number of characters, where the
+  lowercase and uppercase letters appear in equal quantity, determine whether
+  the word obtained from the lowercase letters matches the reverse of the
+  word obtained from the uppercase letters.
+- Question 6: given two arrays already sorted in nondecreasing order,
+  construct and return a new sorted array containing every element from both
+  inputs, preserving repeated values as many times as they occur.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -44,6 +51,14 @@ the current elements of both arrays.
 Question 4 also uses inward pointers, but adds extra logic to ignore
 irrelevant characters and compare letters in a case-insensitive way.
 
+Question 5 uses inward-style reasoning over different character categories,
+matching lowercase letters in forward order against uppercase letters in
+reverse order.
+
+Question 6 uses parallel pointers on two sorted arrays, appending the smaller
+current value at each step and then adding any remaining suffix once one
+array is exhausted.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
@@ -54,6 +69,8 @@ Concepts practiced:
 - prefix sum comparison
 - array intersection
 - sentence normalization during comparison
+- reverse matching across character groups
+- merging sorted arrays
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -62,12 +79,16 @@ Time Complexity:
 - Question 2: O(n), where n is the length of the array
 - Question 3: O(n + m), where n and m are the lengths of the two arrays
 - Question 4: O(n), where n is the length of the sentence
+- Question 5: O(n), where n is the length of the string
+- Question 6: O(n + m), where n and m are the lengths of the two arrays
 
 Space Complexity:
 - Question 1: O(1)
 - Question 2: O(1)
 - Question 3: O(k), where k is the size of the intersection output
 - Question 4: O(1)
+- Question 5: O(1)
+- Question 6: O(n + m), for the merged output array
 """
 
 # Question 1
@@ -123,6 +144,7 @@ def common_elements(arr1, arr2):
 # Question 4
 
 def palindromic_sentence(s):
+    
     left_pointer, right_pointer = 0, len(s) - 1
     
     while left_pointer < right_pointer:
@@ -142,12 +164,44 @@ def palindromic_sentence(s):
 
 # Question 5
 
+def reverse_case_match(s):
+    
+    left_pointer, right_pointer = 0, len(s) - 1
+    
+    while left_pointer < right_pointer:
+        
+        if s[left_pointer].isupper():
+            left_pointer += 1
+        elif s[right_pointer].islower():
+            right_pointer -= 1
+        else:
+            if s[left_pointer] != s[right_pointer].lower():
+                return False
 
+            left_pointer += 1
+            right_pointer -= 1
+    
+    return True
+
+# Question 6
+
+def merge(arr1, arr2):
+    pass
+    
 
 
 if __name__ == "__main__":
+    
+    # DEPOIS DE TODAS AS FUNCOES PRONTAS, ADICIONAR OS CASOS DE TESTE
+    # PARA TODAS AS QUESTOES 
+    
     # Test question 4
-    s = "Bob wondered, 'Now, Bob?'"
-    print(palindromic_sentence(s))
+    # s = "Bob wondered, 'Now, Bob?'"
+    # print(palindromic_sentence(s))
+    
+    # Test  question 5
+    # s = "haDrRAHd"
+    s = "haHrARDd"
+    print(reverse_case_match(s))
 
         
