@@ -38,6 +38,9 @@ Included questions:
 - Question 8: given three sorted arrays, build and return a single sorted
   array containing all values from the three inputs, but keeping only one
   copy of each distinct value.
+- Question 9: given an array that first goes down and then goes up, return
+  a new array with the same elements arranged in sorted order, taking into
+  account that repeated values may appear.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -71,6 +74,10 @@ pointer depending on whether the current sum is too small or too large.
 Question 8 extends the merging idea to three sorted arrays while also
 skipping repeated values in the final result.
 
+Question 9 relies on the fact that the array can be viewed as two sorted
+parts: a nonincreasing prefix and a nondecreasing suffix. The problem can
+then be solved by merging those two parts.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
@@ -85,6 +92,7 @@ Concepts practiced:
 - merging sorted arrays
 - pair-sum search in sorted arrays
 - duplicate removal during merge
+- sorting a valley-shaped array by merging two ordered parts
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -97,6 +105,7 @@ Time Complexity:
 - Question 6: O(n + m), where n and m are the lengths of the two arrays
 - Question 7: O(n), where n is the length of the array
 - Question 8: O(n + m + p), where n, m, and p are the lengths of the three arrays
+- Question 9: O(n), where n is the length of the array
 
 Space Complexity:
 - Question 1: O(1)
@@ -107,6 +116,7 @@ Space Complexity:
 - Question 6: O(n + m), for the merged output array
 - Question 7: O(1)
 - Question 8: O(n + m + p), for the merged output array in the worst case
+- Question 9: O(n), for the output array
 """
 
 # Question 1
@@ -274,7 +284,8 @@ def merge_three_sorted_unique(arr1, arr2, arr3):
     return output_arr
             
 # Question 9
-
+def sort_valley_array(arr):
+    pass
        
      
     
@@ -308,4 +319,8 @@ if __name__ == "__main__":
     # print(merge_three_sorted_unique(arr1=[2,3,3,4,5,7], arr2=[3,3,9], arr3=[3,3,9]))
     
     # Test question 9
+    arr = [8,4,2,6]
+    # arr = [1,2]
+    # arr = [2,2,1,1]
+    print(sort_valley_array(arr))
         
