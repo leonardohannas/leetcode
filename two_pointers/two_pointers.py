@@ -242,9 +242,92 @@ def two_sum_zero(arr):
 # Question 8
 
 def merge_three_sorted_unique(arr1, arr2, arr3):
-    pass
-
-
+    
+    pointer_1, pointer_2, pointer_3 = 0, 0, 0
+    output_arr = []
+    
+    # Runs until at least 1 pointer reaches its end
+    while pointer_1 < len(arr1) and pointer_2 < len(arr2) and pointer_3 < len(arr3):
+        
+        # arr1[pointer_1] < arr2[pointer_2]
+        if arr1[pointer_1] < arr2[pointer_2]:
+            
+            # arr1[pointer_1] < arr2[pointer_2] < arr3[pointer_3]
+            if arr2[pointer_2] < arr3[pointer_3]:
+                output_arr.append(arr1[pointer_1])
+                pointer_1 += 1
+                
+            # arr1[pointer_1] < arr3[pointer_3] < arr2[pointer_2]
+            elif arr1[pointer_1] < arr3[pointer_3]:
+                output_arr.append(arr1[pointer_1])
+                pointer_1 += 1
+                
+            # arr3[pointer_3] < arr1[pointer_1] < arr2[pointer_2]  
+            else:
+                output_arr.append(arr3[pointer_3])
+                pointer_3 += 1
+        
+        # arr2[pointer_2] < arr1[pointer_1]
+        else:
+            
+            # arr2[pointer_2] < arr1[pointer_1] < arr3[pointer_3]
+            if arr1[pointer_1] < arr3[pointer_3]:
+                output_arr.append(arr2[pointer_2])
+                pointer_2 += 1
+                
+            # arr2[pointer_2] < arr3[pointer_3] < arr1[pointer_1]    
+            elif arr2[pointer_2] < arr3[pointer_3]:
+                output_arr.append(arr2[pointer_2])
+                pointer_2 += 1
+            
+            # arr3[pointer_3] < arr2[pointer_2] < arr1[pointer_1]
+            else: 
+                output_arr.append(arr3[pointer_3])
+                pointer_3 += 1
+    
+    # Case for which pointer_3 has reached its end first
+    while pointer_1 < len(arr1) and pointer_2 < len(arr2):
+        if arr1[pointer_1] < arr2[pointer_2]:
+            output_arr.append(arr1[pointer_1])
+            pointer_1 += 1
+        else:
+            output_arr.append(arr2[pointer_2])
+            pointer_2 += 1
+    
+    # Case for which pointer_2 has reached its end first
+    while pointer_1 < len(arr1) and pointer_3 < len(arr3):
+        if arr1[pointer_1] < arr3[pointer_3]:
+            output_arr.append(arr1[pointer_1])
+            pointer_1 += 1
+        else:
+            output_arr.append(arr3[pointer_3])
+            pointer_3 += 1
+        
+    # Case for which pointer_1 has reached its end first
+    while pointer_2 < len(arr2) and pointer_3 < len(arr3):
+        if arr2[pointer_2] < arr3[pointer_3]:
+            output_arr.append(arr2[pointer_2])
+            pointer_2 +=1
+        else:
+            output_arr.append(arr3[pointer_3])
+            pointer_3 += 1
+            
+    # Case for which pointer_1 is the last one to reach its end
+    while pointer_1 < len(arr1):
+        output_arr.append(arr1[pointer_1])
+        pointer_1 += 1
+        
+    # Case for which pointer_2 is the last one to reach its end
+    while pointer_2 < len(arr2):
+        output_arr.append(arr2[pointer_2])
+        pointer_2 += 1
+        
+    # Case for which pointer_3 is the last one to reach its end
+    while pointer_3 < len(arr3):
+        output_arr.append(arr3[pointer_3])
+        pointer_3 += 1
+        
+    return output_arr
     
 
 
