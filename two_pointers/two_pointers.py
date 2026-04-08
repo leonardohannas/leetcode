@@ -285,7 +285,41 @@ def merge_three_sorted_unique(arr1, arr2, arr3):
             
 # Question 9
 def sort_valley_array(arr):
-    pass
+
+    pointer = 0
+    index_min_element = 0
+    min_element = arr[0]
+    while pointer < len(arr):
+        if arr[pointer] < min_element:
+            min_element = arr[pointer]
+            index_min_element = pointer
+        pointer += 1  
+    
+    new_arr = []
+    left_pointer = index_min_element
+    right_pointer = index_min_element - 1
+    
+    while right_pointer >= 0 and left_pointer < len(arr):
+        
+        if arr[left_pointer] < arr[right_pointer]:
+            new_arr.append(arr[left_pointer])
+            left_pointer += 1
+        else:
+            new_arr.append(arr[right_pointer])
+            right_pointer -= 1
+            
+    while right_pointer >= 0:
+        new_arr.append(arr[right_pointer])
+        right_pointer -= 1
+        
+    while left_pointer < len(arr):
+        new_arr.append(arr[left_pointer])
+        left_pointer += 1
+        
+    return new_arr
+        
+        
+
        
      
     
@@ -319,8 +353,8 @@ if __name__ == "__main__":
     # print(merge_three_sorted_unique(arr1=[2,3,3,4,5,7], arr2=[3,3,9], arr3=[3,3,9]))
     
     # Test question 9
-    arr = [8,4,2,6]
+    # arr = [8,4,2,2,1,6]
     # arr = [1,2]
-    # arr = [2,2,1,1]
+    arr = [2,2,1,1]
     print(sort_valley_array(arr))
         
