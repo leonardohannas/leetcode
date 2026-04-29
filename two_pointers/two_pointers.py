@@ -41,6 +41,9 @@ Included questions:
 - Question 9: given an array that first goes down and then goes up, return
   a new array with the same elements arranged in sorted order, taking into
   account that repeated values may appear.
+- Question 10: given a sorted array of integers and a closed interval
+  [low, high], return all numbers inside that interval that do not appear
+  in the array.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -78,6 +81,10 @@ Question 9 relies on the fact that the array can be viewed as two sorted
 parts: a nonincreasing prefix and a nondecreasing suffix. The problem can
 then be solved by merging those two parts.
 
+Question 10 uses a parallel-pointers idea between the sorted input array and
+the implicit sorted sequence low, low + 1, ..., high, without needing to
+materialize that second sequence.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
@@ -93,6 +100,7 @@ Concepts practiced:
 - pair-sum search in sorted arrays
 - duplicate removal during merge
 - sorting a valley-shaped array by merging two ordered parts
+- finding missing values in a numeric range
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -106,6 +114,8 @@ Time Complexity:
 - Question 7: O(n), where n is the length of the array
 - Question 8: O(n + m + p), where n, m, and p are the lengths of the three arrays
 - Question 9: O(n), where n is the length of the array
+- Question 10: O(n + r), where n is the length of the array and
+  r = high - low + 1
 
 Space Complexity:
 - Question 1: O(1)
@@ -117,6 +127,7 @@ Space Complexity:
 - Question 7: O(1)
 - Question 8: O(n + m + p), for the merged output array in the worst case
 - Question 9: O(n), for the output array
+- Question 10: O(k), where k is the number of missing values returned
 """
 
 # Question 1
@@ -284,6 +295,7 @@ def merge_three_sorted_unique(arr1, arr2, arr3):
     return output_arr
             
 # Question 9
+
 def sort_valley_array(arr):
 
     pointer = 0
@@ -318,11 +330,19 @@ def sort_valley_array(arr):
         
     return new_arr
         
-        
+# Question 10
 
-       
-     
-    
+def missing_numbers_in_range(arr, low, high):
+    output_arr = []
+    i = 0
+    for value in range(low, high + 1):
+        while i < len(arr) and arr[i] < value:
+            i += 1
+        
+        if i == len(arr) or arr[i] != value:
+            output_arr.append(value)
+            
+    return output_arr
 
 
 if __name__ == "__main__":
@@ -355,6 +375,28 @@ if __name__ == "__main__":
     # Test question 9
     # arr = [8,4,2,2,1,6]
     # arr = [1,2]
-    arr = [2,2,1,1]
-    print(sort_valley_array(arr))
+    # arr = [2,2,1,1]
+    # print(sort_valley_array(arr))
+    
+    # Test question 10
+    #
+    # arr = [6,9,12,15,18]
+    # low = 9
+    # high = 13
+    #
+    # arr = [6,9,12,15,18]
+    # low = 1
+    # high = 100
+    #
+    # arr = [6,7,8,8]
+    # low = 9
+    # high = 9
+    #
+    # arr = [6,7,8,8]
+    # low = 7
+    # high = 8
+    # print(missing_numbers_in_range(arr, low, high))
+    
+    # Test question 11
+    pass
         
