@@ -44,6 +44,9 @@ Included questions:
 - Question 10: given a sorted array of integers and a closed interval
   [low, high], return all numbers inside that interval that do not appear
   in the array.
+- Question 11: given two sorted lists of disjoint closed intervals, return
+  the intervals that belong to both lists, keeping the result sorted and
+  merging any consecutive overlap into a single interval when needed.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -85,6 +88,10 @@ Question 10 uses a parallel-pointers idea between the sorted input array and
 the implicit sorted sequence low, low + 1, ..., high, without needing to
 materialize that second sequence.
 
+Question 11 uses parallel pointers over two interval lists. At each step, it
+either skips the interval that ends earlier or adds the overlap between the
+current pair when they intersect.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
@@ -101,6 +108,7 @@ Concepts practiced:
 - duplicate removal during merge
 - sorting a valley-shaped array by merging two ordered parts
 - finding missing values in a numeric range
+- interval intersection
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -116,6 +124,8 @@ Time Complexity:
 - Question 9: O(n), where n is the length of the array
 - Question 10: O(n + r), where n is the length of the array and
   r = high - low + 1
+- Question 11: O(n + m), where n and m are the numbers of intervals in the
+  two input arrays
 
 Space Complexity:
 - Question 1: O(1)
@@ -128,6 +138,7 @@ Space Complexity:
 - Question 8: O(n + m + p), for the merged output array in the worst case
 - Question 9: O(n), for the output array
 - Question 10: O(k), where k is the number of missing values returned
+- Question 11: O(k), where k is the number of intersection intervals returned
 """
 
 # Question 1
