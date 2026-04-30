@@ -47,6 +47,11 @@ Included questions:
 - Question 11: given two sorted lists of disjoint closed intervals, return
   the intervals that belong to both lists, keeping the result sorted and
   merging any consecutive overlap into a single interval when needed.
+- Question 12: given an array of letters, reverse its contents directly in
+  the same array while using only constant extra memory.
+- Question 13: given an array of integers, reorder it in place so that all
+  even values appear before all odd values. The order among the even values
+  does not matter, and the order among the odd values does not matter either.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -92,6 +97,13 @@ Question 11 uses parallel pointers over two interval lists. At each step, it
 either skips the interval that ends earlier or adds the overlap between the
 current pair when they intersect.
 
+Question 12 uses inward pointers on the array itself, swapping symmetric
+elements until the two pointers meet near the middle.
+
+Question 13 uses inward pointers to partition the array in place: the left
+pointer searches for an odd value that should move right, while the right
+pointer searches for an even value that should move left.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
@@ -109,6 +121,8 @@ Concepts practiced:
 - sorting a valley-shaped array by merging two ordered parts
 - finding missing values in a numeric range
 - interval intersection
+- in-place array reversal
+- in-place partitioning by parity
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -126,6 +140,8 @@ Time Complexity:
   r = high - low + 1
 - Question 11: O(n + m), where n and m are the numbers of intervals in the
   two input arrays
+- Question 12: O(n), where n is the length of the array
+- Question 13: O(n), where n is the length of the array
 
 Space Complexity:
 - Question 1: O(1)
@@ -139,6 +155,8 @@ Space Complexity:
 - Question 9: O(n), for the output array
 - Question 10: O(k), where k is the number of missing values returned
 - Question 11: O(k), where k is the number of intersection intervals returned
+- Question 12: O(1)
+- Question 13: O(1)
 """
 
 # Question 1
@@ -411,11 +429,41 @@ def intervals_intersection(arr1: list[list[int]], arr2: list[list[int]]) -> list
 
 # Question 12
 
+def reverse(arr):
+    left_pointer, right_pointer = 0, len(arr) - 1
+    while left_pointer < right_pointer:
+        arr[left_pointer], arr[right_pointer] = arr[right_pointer], arr[left_pointer]
+        left_pointer += 1
+        right_pointer -= 1
+    return arr
+
+# Question 13
+
+# Reorders the array in place so that all even numbers come before all odd numbers.
+def parity_sort(arr):
+    left_pointer, right_pointer = 0, len(arr) - 1
+
+    while left_pointer < right_pointer:
+        # If the left value is even, it is already in the correct partition.
+        if arr[left_pointer] % 2 == 0:
+            left_pointer += 1
+
+        # If the right value is odd, it is already in the correct partition.
+        elif arr[right_pointer] % 2 != 0:
+            right_pointer -= 1
+
+        # Otherwise, swap the misplaced odd value on the left
+        # with the misplaced even value on the right.
+        else:
+            arr[left_pointer], arr[right_pointer] = arr[right_pointer], arr[left_pointer]
+            left_pointer += 1
+            right_pointer -= 1
+
+    return arr
+
+# Question 14
 
 
-
-            
-    
 
 
 if __name__ == "__main__":
@@ -476,8 +524,20 @@ if __name__ == "__main__":
     # print(intervals_intersection(arr1, arr2))
 
     # Test question 12
-    arr1 = [[0,1], [4,6], [7,8]] 
-    arr2 = [[2,3], [5,9], [10,11]]
-    print(intervals_intersection(arr1, arr2))
+    # arr = list("repaid")
+    # print(arr)
+    # print(reverse(arr))
+    
+    # Test question 13
+    # arr = [1,2,3,4,5]
+    # arr = [5,1,3,1,5]
+    # arr = [0,2,7,6,8]
+    # print(parity_sort(arr))
+    
+    # Test question 14
+    # arr = [1,2,3,4,5]
+    # arr = [5,1,3,1,5]
+    # arr = [0,2,7,6,8]
+    # print(parity_sort(arr))
     pass
         
