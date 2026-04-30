@@ -344,6 +344,68 @@ def missing_numbers_in_range(arr, low, high):
             
     return output_arr
 
+# Question 11
+
+# Returns the overlap between two intervals of the form [start, end].
+# This function assumes the intervals already overlap.
+def intersection(interval_1: list[int], interval_2: list[int]) -> list[int]:
+    start_interval_1, end_interval_1 = interval_1
+    start_interval_2, end_interval_2 = interval_2
+
+    overlap_start = max(start_interval_1, start_interval_2)
+    overlap_end = min(end_interval_1, end_interval_2)
+
+    return [overlap_start, overlap_end]
+
+
+# Returns the intersection between two sorted lists of non-overlapping intervals.
+# Each interval is represented as [start, end], with both endpoints included.
+def intervals_intersection(arr1: list[list[int]], arr2: list[list[int]]) -> list[list[int]]:
+    result = []
+
+    number_intervals_arr1 = len(arr1)
+    number_intervals_arr2 = len(arr2)
+
+    pointer_arr1 = 0
+    pointer_arr2 = 0
+
+    while pointer_arr1 < number_intervals_arr1 and pointer_arr2 < number_intervals_arr2:
+        current_interval_arr1 = arr1[pointer_arr1]
+        current_interval_arr2 = arr2[pointer_arr2]
+
+        start_current_interval_arr1, end_current_interval_arr1 = current_interval_arr1
+        start_current_interval_arr2, end_current_interval_arr2 = current_interval_arr2
+
+        # If arr1's current interval ends before arr2's current interval starts,
+        # there is no overlap and we can advance pointer_arr1.
+        if end_current_interval_arr1 < start_current_interval_arr2:
+            pointer_arr1 += 1
+
+        # If arr2's current interval ends before arr1's current interval starts,
+        # there is no overlap and we can advance pointer_arr2.
+        elif end_current_interval_arr2 < start_current_interval_arr1:
+            pointer_arr2 += 1
+
+        # Otherwise, the intervals overlap. We add the overlap to the result
+        # and advance the pointer of the interval that ends first.
+        else:
+            result.append(intersection(current_interval_arr1, current_interval_arr2))
+
+            if end_current_interval_arr1 < end_current_interval_arr2:
+                pointer_arr1 += 1
+            else:
+                pointer_arr2 += 1
+
+    return result
+
+# Question 12
+
+
+
+
+            
+    
+
 
 if __name__ == "__main__":
     
@@ -398,5 +460,13 @@ if __name__ == "__main__":
     # print(missing_numbers_in_range(arr, low, high))
     
     # Test question 11
+    # arr1 = [[0,1], [4,6], [7,8]] 
+    # arr2 = [[2,3], [5,9], [10,11]]
+    # print(intervals_intersection(arr1, arr2))
+
+    # Test question 12
+    arr1 = [[0,1], [4,6], [7,8]] 
+    arr2 = [[2,3], [5,9], [10,11]]
+    print(intervals_intersection(arr1, arr2))
     pass
         
