@@ -52,6 +52,9 @@ Included questions:
 - Question 13: given an array of integers, reorder it in place so that all
   even values appear before all odd values. The order among the even values
   does not matter, and the order among the odd values does not matter either.
+- Question 14: given a sorted array of integers, remove repeated values
+  in place while preserving the order of the remaining unique elements, and
+  return how many unique values remain.
 
 Approach:
 The goal of this file is to practice the two-pointers technique through
@@ -104,11 +107,16 @@ Question 13 uses inward pointers to partition the array in place: the left
 pointer searches for an odd value that should move right, while the right
 pointer searches for an even value that should move left.
 
+Question 14 uses seeker and writer pointers. The seeker scans the array for
+the next unique value, while the writer marks the next position where a kept
+value should be written.
+
 Concepts practiced:
 - two-pointers technique
 - inward pointers
 - slow and fast pointers
 - parallel pointers
+- seeker and writer pointers
 - palindrome checking
 - string traversal from both ends
 - prefix sum comparison
@@ -123,6 +131,7 @@ Concepts practiced:
 - interval intersection
 - in-place array reversal
 - in-place partitioning by parity
+- in-place duplicate removal
 - constant-space comparison
 - linear traversal of sorted arrays
 
@@ -142,6 +151,7 @@ Time Complexity:
   two input arrays
 - Question 12: O(n), where n is the length of the array
 - Question 13: O(n), where n is the length of the array
+- Question 14: O(n), where n is the length of the array
 
 Space Complexity:
 - Question 1: O(1)
@@ -157,6 +167,7 @@ Space Complexity:
 - Question 11: O(k), where k is the number of intersection intervals returned
 - Question 12: O(1)
 - Question 13: O(1)
+- Question 14: O(1)
 """
 
 # Question 1
@@ -463,7 +474,24 @@ def parity_sort(arr):
 
 # Question 14
 
-
+# Removes duplicates from a sorted array in place.
+# Returns the number of unique elements and keeps the remaining positions
+# filled with "." only for visualization purposes.
+def remove_duplicates(arr):
+    writer_pointer, seeker_pointer = 0, 0
+    while seeker_pointer < len(arr):
+        # Keep the first element and every value that differs from the previous one.
+        if seeker_pointer == 0 or arr[seeker_pointer] != arr[seeker_pointer - 1]:
+            arr[writer_pointer] = arr[seeker_pointer]
+            writer_pointer += 1
+        seeker_pointer += 1
+    number_unique_elements = writer_pointer
+    
+    # Fill the remaining positions only to make the output easier to read.
+    for i in range(number_unique_elements, len(arr)):
+        arr[i] = "."
+        
+    return number_unique_elements, arr
 
 
 if __name__ == "__main__":
@@ -535,9 +563,14 @@ if __name__ == "__main__":
     # print(parity_sort(arr))
     
     # Test question 14
-    # arr = [1,2,3,4,5]
-    # arr = [5,1,3,1,5]
-    # arr = [0,2,7,6,8]
-    # print(parity_sort(arr))
+    # arr = [1,2,2,3,3,3,5]
+    # unique_elements, formated_arr = remove_duplicates(arr)
+    # print(f"Unique elements = {unique_elements} | Formated array = {formated_arr}")
+    
+    # Test question 15
+    # arr = [1,2,2,3,3,3,5]
+    # unique_elements, formated_arr = remove_duplicates(arr)
+    # print(f"Unique elements = {unique_elements} | Formated array = {formated_arr}")
     pass
+
         
